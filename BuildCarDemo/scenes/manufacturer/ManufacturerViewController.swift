@@ -15,6 +15,7 @@ final class ManufacturerViewController: UIViewController, Loadable {
 
     @IBOutlet private var tableView: UITableView!
     @IBOutlet private var errorLbl: UILabel!
+    @IBOutlet private var errorView: UIView!
 
     private let disposeBag = DisposeBag()
     var viewModel: ManufacturerViewModel!
@@ -50,6 +51,7 @@ private extension ManufacturerViewController {
             }.disposed(by: disposeBag)
         tableView.rx.modelSelected(Manufacturer.self).bind(onNext: showSongsList(element:)).disposed(by: disposeBag)
         viewModel.error.map { $0.localizedDescription }.bind(to: errorLbl.rx.text).disposed(by: disposeBag)
+        viewModel.error.map { $0.localizedDescription.isEmpty }.bind(to: errorView.rx.isHidden).disposed(by: disposeBag)
     }
 
     /// show list of songs for spacific arist

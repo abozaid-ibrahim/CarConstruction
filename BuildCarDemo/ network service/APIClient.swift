@@ -58,5 +58,13 @@ extension Data {
 }
 
 enum NetworkFailure: Error {
-    case generalFailure, failedToParseData
+    case generalFailure, failedToParseData, connectionFailed
+    var localizedDescription: String {
+        switch self {
+        case .failedToParseData:
+            return "Technical Difficults, we can't fetch the data"
+        default:
+            return "Check your connectivity"
+        }
+    }
 }
