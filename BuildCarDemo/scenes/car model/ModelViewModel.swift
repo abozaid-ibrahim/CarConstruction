@@ -8,26 +8,71 @@
 
 import Foundation
 import RxSwift
-
+typealias ManufacturerModel = (key: String, value: String)
 protocol CarModelViewModel {}
 
 /// viewModel of songs list,
 final class ModelViewModel: CarModelViewModel {
     private let disposeBag = DisposeBag()
-    var spacificationList = BehaviorSubject<CarTypeJsonResponse?>(value: .none)
-    var manufacturer = BehaviorSubject<Manufacturer?>(value: .none)
+    private let apiClient: ApiClient
+    private var page = 1
+    private let countPerPage = 15
+    private var mainTypes: Manufacturer = [:]
+    private var manu: ManufacturerModel!
+    private var isFetchingData = false
+    var fetchedItemsCount = 0
 
-    init(manufacturer: Manufacturer) {
+    // MARK: Observers
+
+    var car = BehaviorSubject<Manufacturer?>(value: .none)
+    var showProgress = PublishSubject<Bool>()
+    var error = PublishSubject<String?>()
+    var manufacturer = BehaviorSubject<ManufacturerModel?>(value: .none)
+    var chooses = PublishSubject<String>()
+
+    /// initializier
+    /// - Parameter apiClient: network handler
+    init(apiClient: ApiClient = HTTPClient(), manufacturer: ManufacturerModel) {
+        self.apiClient = apiClient
+        self.manu = manufacturer
         self.manufacturer.onNext(manufacturer)
     }
-}
 
-extension String {
-    /// convert string to formated duration
-    var songDurationFormat: String {
-        guard let seconds = Int(self) else {
-            return String(format: "%02d:%02d:%02d", 0, 0, 0)
+    /// load the data from the endpoint
+    /// - Parameter showLoader: show indicator on screen to till user data is loading
+    func loadData(showLoader: Bool = true) {
+        if self.isFetchingData {
+            return
         }
-        return String(format: "%02d:%02d:%02d", seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
+        self.isFetchingData = true
+        if showLoader {
+            self.showProgress.onNext(true)
+        }
+        let api = CarApi.mainTypes(key: APIConstants.authKey, manufacturer: self.manu.key, page: self.page, pageSize: self.countPerPage)
+        self.apiClient.getCarTypeData(of: api)
+            .filterNil()
+            .subscribe(onNext: { [unowned self] response in
+                self.mainTypes = response.wkda ?? [:]
+                self.fetchedItemsCount = self.mainTypes.values.count
+                self.updateUIWithData(showLoader)
+            }, onError: { err in
+                self.error.onNext(err.localizedDescription)
+            }).disposed(by: self.disposeBag)
+    }
+
+    /// emit values to ui to fill the table view if the data is a littlet reload untill fill the table
+    private func updateUIWithData(_ showLoader: Bool) {
+        if showLoader {
+            self.showProgress.onNext(false)
+        }
+        self.isFetchingData = false
+        self.page += 1
+        self.car.onNext(self.mainTypes)
+    }
+
+    func combineSelection(with type: CarType) {
+        let text = "Model: \(manu.value)\n\(type.key):\(type.value)"
+
+        self.chooses.onNext(text)
     }
 }

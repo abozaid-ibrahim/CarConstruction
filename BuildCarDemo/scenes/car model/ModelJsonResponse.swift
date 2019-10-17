@@ -7,6 +7,7 @@
 //
 
 import Foundation
+typealias CarType = (key:String,value:String)
 struct CarTypeJsonResponse: Codable {
     public let page: Int?
     public let pageSize: Int?

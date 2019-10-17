@@ -34,7 +34,7 @@ extension Coordinator {
 final class AppCoordinator: Coordinator {
     weak var window: UIWindow?
 
-    private(set) weak var rootNavigationController: ManufacturerViewController?
+    private(set) var rootNavigationController: UINavigationController?
 
     /// Creates a new instance of the App Coordinator
     ///
@@ -47,7 +47,7 @@ final class AppCoordinator: Coordinator {
         guard let window = self.window else { completion?(); return }
         let main = ManufacturerViewController()
         main.viewModel = ManufacturersListViewModel()
-        rootNavigationController = main
+        rootNavigationController = UINavigationController(rootViewController: main)
         window.rootViewController = rootNavigationController
         completion?()
     }

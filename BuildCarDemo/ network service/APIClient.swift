@@ -11,10 +11,16 @@ import RxOptional
 import RxSwift
 protocol ApiClient {
     func getData(of request: RequestBuilder) -> Observable<ManufacturersJsonResponse?>
+    func getCarTypeData(of request: RequestBuilder) -> Observable<CarTypeJsonResponse?>
 }
 
 /// api handler, wrapper for the Url session
 final class HTTPClient: ApiClient {
+    func getCarTypeData(of request: RequestBuilder) -> Observable<CarTypeJsonResponse?> {
+        print("REQ>>\(request)")
+        return excute(request).map { $0?.toModel() }.filterNil()
+    }
+
     private let disposeBag = DisposeBag()
     func getData(of request: RequestBuilder) -> Observable<ManufacturersJsonResponse?> {
         print("REQ>>\(request)")
@@ -25,7 +31,8 @@ final class HTTPClient: ApiClient {
     /// - Parameter request: the request that have all the details that need to call the remote api
     private func excute(_ request: RequestBuilder) -> Observable<Data?> {
         return Observable<Data?>.create { (observer) -> Disposable in
-            let task = URLSession.shared.dataTask(with: request.task) { data, response, error in
+            URLSession.shared.dataTask(with: request.task) { data, response, error in
+                log(.info, request, response, data?.toString, error)
                 if let error = error {
                     observer.onError(error)
                     return
@@ -37,8 +44,7 @@ final class HTTPClient: ApiClient {
                 }
                 print(String(data: data!, encoding: .utf8) ?? "")
                 observer.onNext(data)
-            }
-            task.resume()
+            }.resume()
             return Disposables.create()
         }
         .share(replay: 0, scope: .forever)
@@ -54,6 +60,10 @@ extension Data {
             print(">>> parsing error \(error)")
             return nil
         }
+    }
+
+    var toString: String {
+        return String(data: self, encoding: .utf8) ?? ""
     }
 }
 

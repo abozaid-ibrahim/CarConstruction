@@ -20,7 +20,7 @@ extension UITableView {
     
     /// set the cell seperator style and remove it from the empty cells
     func seperatorStyle(){
-        self.separatorStyle = .none
+        self.separatorStyle = .singleLine
         self.tableFooterView = UIView()
     }
 }

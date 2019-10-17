@@ -11,26 +11,28 @@ import UIKit
 final class ModelTableCell: UITableViewCell {
     // MARK: Outlets
 
-    @IBOutlet private var songImgView: UIImageView!
-    @IBOutlet private var songNameLbl: UILabel!
-    @IBOutlet private var autherLbl: UILabel!
-    @IBOutlet private var durationLbl: UILabel!
+    @IBOutlet private var keyLbl: UILabel!
+    @IBOutlet private var valueLbl: UILabel!
 
     /// fill ui with it's model
     /// - Parameter icon: song artwork
     /// - Parameter name: song title
     /// - Parameter auther: auther name
     /// - Parameter duration: duration of the song
-    func setData(_ icon: String?, name: String?, auther: String?, duration: String?) {
-        self.songImgView.setImage(with: icon)
-        self.autherLbl.text = auther
-        self.songNameLbl.text = name
-        self.durationLbl.text = duration
+    func setData(with type: CarType, index: Int) {
+        self.keyLbl.text = type.0
+        self.valueLbl.text = type.1
+        self.backgroundColor = index.evenOddColorBase()
     }
 
     override func awakeFromNib() {
         super.awakeFromNib()
         selectionStyle = .blue
-        self.songImgView.circle()
+    }
+}
+
+extension Int {
+    func evenOddColorBase() -> UIColor {
+        return self % 2 == 0 ? UIColor.green.withAlphaComponent(0.1) : UIColor.groupTableViewBackground
     }
 }

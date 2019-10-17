@@ -21,8 +21,8 @@ extension ManufacturerApi: RequestBuilder {
         return "car-types/manufacturer"
     }
     
-    var endpoint: URL {
-        return URL(string: "\(baseURL)\(path)")!
+    var endpoint: String {
+        return "\(baseURL)\(path)"
     }
     
     public var method: HttpMethod {
@@ -38,18 +38,19 @@ extension ManufacturerApi: RequestBuilder {
                 "wa_key": prm.key
             ] as [String: Any]
             var items = [URLQueryItem]()
-            var myURL = URLComponents(string: endpoint.absoluteString)
+            var myURL = URLComponents(string: endpoint)
             for (key, value) in prmDic {
                 items.append(URLQueryItem(name: key, value: "\(value)"))
             }
             myURL?.queryItems = items
-            
-            let request = URLRequest(url: endpoint, cachePolicy: URLRequest.CachePolicy.reloadIgnoringCacheData, timeoutInterval: APIConstants.timeout)
+            var request = URLRequest(url: myURL!.url!, cachePolicy: URLRequest.CachePolicy.returnCacheDataElseLoad, timeoutInterval: APIConstants.timeout)
+            request.httpMethod = method.rawValue
+            request.allHTTPHeaderFields = headers
             return request
         }
     }
     
     public var headers: [String: String]? {
-        return ["Content-Type": "application/x-www-form-urlencoded"]
+        return ["Content-Type": "application/json"]
     }
 }

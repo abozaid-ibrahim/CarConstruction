@@ -24,6 +24,7 @@ final class ManufacturerViewController: UIViewController, Loadable {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setTitle()
         configuerTableView()
         bindToViewModel()
         viewModel.loadData(showLoader: true)
@@ -33,6 +34,10 @@ final class ManufacturerViewController: UIViewController, Loadable {
 // MARK: - UITableViewDataSourcePrefetching
 
 private extension ManufacturerViewController {
+    private func setTitle() {
+        title = "Car Builder"
+    }
+
     private func configuerTableView() {
         tableView.prefetchDataSource = self
         tableView.registerNib(ManufacturerTableCell.self)
@@ -45,22 +50,23 @@ private extension ManufacturerViewController {
             .observeOn(MainScheduler.instance)
             .bind(onNext: showLoading(show:)).disposed(by: disposeBag)
         viewModel.manufacturersList
+            .filterNil()
             .observeOn(MainScheduler.instance)
-            .bind(to: tableView.rx.items(cellIdentifier: String(describing: ManufacturerTableCell.self), cellType: ManufacturerTableCell.self)) { _, model, cell in
-                cell.setData(with: model)
+            .bind(to: tableView.rx.items(cellIdentifier: String(describing: ManufacturerTableCell.self), cellType: ManufacturerTableCell.self)) { index, model, cell in
+                cell.setData(with: model.value,index:index)
             }.disposed(by: disposeBag)
-        tableView.rx.modelSelected(Manufacturer.self).bind(onNext: showSongsList(element:)).disposed(by: disposeBag)
-        viewModel.error.map { $0.localizedDescription }.bind(to: errorLbl.rx.text).disposed(by: disposeBag)
-        viewModel.error.map { $0.localizedDescription.isEmpty }.bind(to: errorView.rx.isHidden).disposed(by: disposeBag)
+        tableView.rx.modelSelected(ManufacturerModel.self).bind(onNext: showSongsList(element:)).disposed(by: disposeBag)
+        viewModel.error.bind(to: errorLbl.rx.text).disposed(by: disposeBag)
+        viewModel.error.map { $0 == nil }.bind(to: errorView.rx.isHidden).disposed(by: disposeBag)
     }
 
     /// show list of songs for spacific arist
     /// - Parameter element: list of songs for the artist
-    private func showSongsList(element: Manufacturer) {
-        //        let songsView = ModelView()
-        //        let songsViewModel = ModelViewModel(songs: element)
-        //        songsView.viewModel = songsViewModel
-        //        navigationController?.pushViewController(songsView, animated: true)
+    private func showSongsList(element: ManufacturerModel) {
+        let carModelController = ModelViewController()
+        let songsViewModel = ModelViewModel(manufacturer: element)
+        carModelController.viewModel = songsViewModel
+        navigationController?.pushViewController(carModelController, animated: true)
     }
 }
 
@@ -74,6 +80,6 @@ extension ManufacturerViewController: UITableViewDataSourcePrefetching {
     }
 
     func isLoadingCell(for indexPath: IndexPath) -> Bool {
-        return true // indexPath.row >= viewModel.currentCount
+        return indexPath.row >= viewModel.fetchedItemsCount
     }
 }

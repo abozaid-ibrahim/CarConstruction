@@ -8,48 +8,50 @@
 
 import Foundation
 
-enum CarModelApi {
-    case carTypes(key: String, page: Int, pageSize: Int)
+enum CarApi {
+    case mainTypes(key: String, manufacturer:String,page: Int, pageSize: Int)
 }
 
-extension CarModelApi: RequestBuilder {
+extension CarApi: RequestBuilder {
     public var baseURL: URL {
         return URL(string: APIConstants.baseURL)!
     }
-    
+
     public var path: String {
-        return "car-types/manufacturer"
+        return "car-types/main-types"
     }
-    
-    var endpoint: URL {
-        return URL(string: "\(baseURL)\(path)")!
+
+    var endpoint: String {
+        return "\(baseURL)\(path)"
     }
-    
+
     public var method: HttpMethod {
         return .get
     }
-    
+
     public var task: URLRequest {
         switch self {
-        case .carTypes(let prm):
+        case .mainTypes(let prm):
             let prmDic = [
                 "pageSize": prm.pageSize,
                 "page": prm.page,
-                "&wa_key": prm.key
+                "manufacturer":prm.manufacturer,
+                "wa_key": prm.key
             ] as [String: Any]
             var items = [URLQueryItem]()
-            var myURL = URLComponents(string: endpoint.absoluteString)
+            var myURL = URLComponents(string: endpoint)
             for (key, value) in prmDic {
                 items.append(URLQueryItem(name: key, value: "\(value)"))
             }
             myURL?.queryItems = items
-            
-            let request = URLRequest(url: endpoint, cachePolicy: URLRequest.CachePolicy.reloadIgnoringCacheData, timeoutInterval: 30)
+            var request = URLRequest(url: myURL!.url!, cachePolicy: URLRequest.CachePolicy.returnCacheDataElseLoad, timeoutInterval: APIConstants.timeout)
+            request.httpMethod = method.rawValue
+            request.allHTTPHeaderFields = headers
             return request
         }
     }
-    
+
     public var headers: [String: String]? {
-        return ["Content-Type": "application/x-www-form-urlencoded"]
+        return ["Content-Type": "application/json"]
     }
 }
