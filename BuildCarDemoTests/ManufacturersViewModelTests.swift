@@ -7,18 +7,17 @@
 //
 @testable import BuildCarDemo
 
-import XCTest
-import RxSwift
 import RxOptional
-import RxTest
+import RxSwift
 import RxSwiftExt
+import RxTest
+import XCTest
 
 class ManufacturersViewModelTests: XCTestCase {
-    
-    private var viewModel:ManufacturersListViewModel!
+    private var viewModel: ManufacturersListViewModel!
     private var apiClient: ApiClient!
     private let disposeBag = DisposeBag()
-    private var manufacturers:TestableObserver<Manufacturers>!
+    private var manufacturers: TestableObserver<Manufacturers>!
     private var schedular: TestScheduler!
     override func setUp() {
         apiClient = MockedAPi()
@@ -26,29 +25,25 @@ class ManufacturersViewModelTests: XCTestCase {
         schedular = TestScheduler(initialClock: 0)
         manufacturers = schedular.createObserver(Manufacturers.self)
     }
-    
+
     override func tearDown() {
         viewModel = .none
         apiClient = .none
     }
-    
+
     func testManipulateDataFromDifferentLayers() {
         viewModel.manufacturersList.asObservable().unwrap().subscribe(manufacturers).disposed(by: disposeBag)
         viewModel.loadData()
         schedular.start()
-        XCTAssertTrue(manufacturers.events.contains{eve in
+        XCTAssertTrue(manufacturers.events.contains { eve in
             eve.value.element?.count == 6
         })
     }
-    
-    
-    
 }
 
-fileprivate class MockedAPi:ApiClient{
-    func getData<T>(of request: RequestBuilder, model: T.Type) -> Observable<T?> where T : Decodable, T : Encodable {
-        
-        return Observable<T?>.create{ observer in
+fileprivate class MockedAPi: ApiClient {
+    func getData<T>(of _: RequestBuilder, model _: T.Type) -> Observable<T?> where T: Decodable, T: Encodable {
+        return Observable<T?>.create { observer in
             let response = """
             {
             "page": 0,
@@ -64,7 +59,7 @@ fileprivate class MockedAPi:ApiClient{
             }
             }
             """
-            
+
             let data = response.data(using: .utf8)
             observer.onNext(data?.toModel())
             return Disposables.create()

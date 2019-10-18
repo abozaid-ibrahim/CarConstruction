@@ -16,26 +16,26 @@ extension ManufacturerApi: RequestBuilder {
     public var baseURL: URL {
         return URL(string: APIConstants.baseURL)!
     }
-    
+
     public var path: String {
         return "car-types/manufacturer"
     }
-    
+
     var endpoint: String {
         return "\(baseURL)\(path)"
     }
-    
+
     public var method: HttpMethod {
         return .get
     }
-    
+
     public var task: URLRequest {
         switch self {
-        case .manufacturers(let prm):
+        case let .manufacturers(prm):
             let prmDic = [
                 "pageSize": prm.pageSize,
                 "page": prm.page,
-                "wa_key": prm.key
+                "wa_key": prm.key,
             ] as [String: Any]
             var items = [URLQueryItem]()
             var myURL = URLComponents(string: endpoint)
@@ -49,7 +49,7 @@ extension ManufacturerApi: RequestBuilder {
             return request
         }
     }
-    
+
     public var headers: [String: String]? {
         return ["Content-Type": "application/json"]
     }

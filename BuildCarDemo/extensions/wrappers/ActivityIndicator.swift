@@ -19,17 +19,17 @@ extension Loadable where Self: UIViewController {
     /// - Parameter show: to decide to show or hide the activity indicator
     func showLoading(show: Bool) {
         if show {
-            self.showLoading()
+            showLoading()
         } else {
-            self.hideLoading()
+            hideLoading()
         }
     }
 
     /// create an activity indicator and add it to my view and start animating
     private func showLoading() {
         let activityView = UIActivityIndicatorView(style: .gray)
-        activityView.center = self.view.center
-        self.view.addSubview(activityView)
+        activityView.center = view.center
+        view.addSubview(activityView)
         activityView.startAnimating()
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }

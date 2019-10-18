@@ -14,14 +14,13 @@ final class ModelTableCell: UITableViewCell {
     @IBOutlet private var keyLbl: UILabel!
     @IBOutlet private var valueLbl: UILabel!
 
-    
     /// Description
     /// - Parameter type: type description
     /// - Parameter index: index description
     func setData(with type: CarType, index: Int) {
-        self.keyLbl.text = type.key
-        self.valueLbl.text = type.value
-        self.backgroundColor = index.evenOddColorBase()
+        keyLbl.text = type.key
+        valueLbl.text = type.value
+        backgroundColor = index.evenOddColorBase()
     }
 
     override func awakeFromNib() {

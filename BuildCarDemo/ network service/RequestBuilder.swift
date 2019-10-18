@@ -20,7 +20,7 @@ public protocol RequestBuilder {
     var headers: [String: String]? { get }
 }
 
-public enum HttpMethod:String {
+public enum HttpMethod: String {
     case get, post
 }
 
