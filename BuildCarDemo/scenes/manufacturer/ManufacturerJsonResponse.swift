@@ -7,7 +7,9 @@
 //
 
 import Foundation
-typealias Manufacturer = [String: String]
+typealias Manufacturers = [String: String]
+typealias Manufacturer = (key: String, value: String)
+
 struct ManufacturersJsonResponse: Codable {
     public let page: Int?
     public let pageSize: Int?

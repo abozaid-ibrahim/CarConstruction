@@ -14,14 +14,13 @@ final class ModelTableCell: UITableViewCell {
     @IBOutlet private var keyLbl: UILabel!
     @IBOutlet private var valueLbl: UILabel!
 
-    /// fill ui with it's model
-    /// - Parameter icon: song artwork
-    /// - Parameter name: song title
-    /// - Parameter auther: auther name
-    /// - Parameter duration: duration of the song
+    
+    /// Description
+    /// - Parameter type: type description
+    /// - Parameter index: index description
     func setData(with type: CarType, index: Int) {
-        self.keyLbl.text = type.0
-        self.valueLbl.text = type.1
+        self.keyLbl.text = type.key
+        self.valueLbl.text = type.value
         self.backgroundColor = index.evenOddColorBase()
     }
 
