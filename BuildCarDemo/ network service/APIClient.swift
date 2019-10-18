@@ -16,7 +16,8 @@ protocol ApiClient {
 /// api handler, wrapper for the Url session
 final class HTTPClient: ApiClient {
     private let disposeBag = DisposeBag()
-    func getData<T: Codable>(of request: RequestBuilder, model _: T.Type) -> Observable<T?> { return excute(request).map { $0?.toModel() }
+    func getData<T: Codable>(of request: RequestBuilder, model _: T.Type) -> Observable<T?> {
+        return excute(request).map { $0?.toModel() }
     }
 
     /// fire the http request and return observable of the data or emit an error
@@ -43,29 +44,3 @@ final class HTTPClient: ApiClient {
     }
 }
 
-extension Data {
-    func toModel<T: Decodable>() -> T? {
-        do {
-            return try JSONDecoder().decode(T.self, from: self)
-        } catch {
-            print(">>> parsing error \(error)")
-            return nil
-        }
-    }
-
-    var toString: String {
-        return String(data: self, encoding: .utf8) ?? ""
-    }
-}
-
-enum NetworkFailure: Error {
-    case generalFailure, failedToParseData, connectionFailed
-    var localizedDescription: String {
-        switch self {
-        case .failedToParseData:
-            return "Technical Difficults, we can't fetch the data"
-        default:
-            return "Check your connectivity"
-        }
-    }
-}

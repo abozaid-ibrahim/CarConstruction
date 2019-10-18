@@ -16,8 +16,6 @@ target 'BuildCarDemo' do
   target 'BuildCarDemoTests' do
     inherit! :search_paths
     pod 'RxTest'
-    
-    pod 'RxBlocking'
     pod 'Quick'
     pod 'Nimble'
     pod 'RxNimble'

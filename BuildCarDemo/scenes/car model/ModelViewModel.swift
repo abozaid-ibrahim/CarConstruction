@@ -55,7 +55,7 @@ final class CarTypeViewModel: CarModelViewModel {
         apiClient.getData(of: api, model: CarTypeJsonResponse.self)
             .subscribe(onNext: { [unowned self] response in
                 guard let response = response else {
-                    self.error.onNext(NetworkFailure.failedToParseData.localizedDescription)
+                    self.error.onNext(NetworkFailure.failedToParseData.errorDescription ?? "")
                     return
                 }
                 self.setUIWithData(showLoader, response: response)

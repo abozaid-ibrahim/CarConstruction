@@ -24,8 +24,3 @@ public enum HttpMethod: String {
     case get, post
 }
 
-struct APIConstants {
-    static let baseURL = "http://api-aws-eu-qa-1.auto1-test.com/v1/"
-    static let authKey = "coding-puzzle-client-449cc9d"
-    static let timeout = Double(30)
-}

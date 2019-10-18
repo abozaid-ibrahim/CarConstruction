@@ -49,7 +49,7 @@ final class ManufacturersListViewModel: ManufacturerViewModel {
         apiClient.getData(of: api, model: ManufacturersJsonResponse.self)
             .subscribe(onNext: { [unowned self] response in
                 guard let response = response else {
-                    self.error.onNext(NetworkFailure.failedToParseData.localizedDescription)
+                    self.error.onNext(NetworkFailure.failedToParseData.errorDescription ?? "")
                     return
                 }
                 self.updateUIWithData(showLoader, response: response)

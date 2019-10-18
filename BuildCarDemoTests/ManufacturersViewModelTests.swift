@@ -12,7 +12,6 @@ import RxSwift
 import RxSwiftExt
 import RxTest
 import XCTest
-
 class ManufacturersViewModelTests: XCTestCase {
     private var viewModel: ManufacturersListViewModel!
     private var apiClient: ApiClient!

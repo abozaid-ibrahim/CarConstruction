@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		43A3485A10F9BB46095ABF41 /* Pods_BuildCarDemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94A7B9DF3FE31A80B1F2A393 /* Pods_BuildCarDemoTests.framework */; };
 		6C312C51235A13840037A187 /* CarTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C312C50235A13840037A187 /* CarTypeTests.swift */; };
+		6C312C53235A23A70037A187 /* NetworkFailure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C312C52235A23A70037A187 /* NetworkFailure.swift */; };
+		6C312C55235A23C20037A187 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C312C54235A23C20037A187 /* APIConstants.swift */; };
+		6C312C57235A23EC0037A187 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C312C56235A23EC0037A187 /* DataExtension.swift */; };
 		6C5411BC235763EC000B75C0 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5411B6235763EC000B75C0 /* ImageLoader.swift */; };
 		6C5411BD235763EC000B75C0 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5411B7235763EC000B75C0 /* ActivityIndicator.swift */; };
 		6C5411BE235763EC000B75C0 /* UIView+layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C5411B9235763EC000B75C0 /* UIView+layer.swift */; };
@@ -55,6 +58,9 @@
 /* Begin PBXFileReference section */
 		0BF8B337CD29221A34D2CC1B /* Pods-BuildCarDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BuildCarDemoTests.release.xcconfig"; path = "Target Support Files/Pods-BuildCarDemoTests/Pods-BuildCarDemoTests.release.xcconfig"; sourceTree = "<group>"; };
 		6C312C50235A13840037A187 /* CarTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarTypeTests.swift; sourceTree = "<group>"; };
+		6C312C52235A23A70037A187 /* NetworkFailure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkFailure.swift; sourceTree = "<group>"; };
+		6C312C54235A23C20037A187 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
+		6C312C56235A23EC0037A187 /* DataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
 		6C5411B6235763EC000B75C0 /* ImageLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		6C5411B7235763EC000B75C0 /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		6C5411B9235763EC000B75C0 /* UIView+layer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+layer.swift"; sourceTree = "<group>"; };
@@ -161,6 +167,7 @@
 				6C5411BA235763EC000B75C0 /* UITableView+Cell.swift */,
 				6C5411BB235763EC000B75C0 /* UIView+Constrains.swift */,
 				6CFD31D92359BCBC0057C1A7 /* DictionaryExtension.swift */,
+				6C312C56235A23EC0037A187 /* DataExtension.swift */,
 			);
 			path = "swifter swift";
 			sourceTree = "<group>";
@@ -235,6 +242,8 @@
 				6C5F7F5B235762BF00BAF401 /* APIClient.swift */,
 				6C5F7F5C235762BF00BAF401 /* RequestBuilder.swift */,
 				6CFD31DB2359C0280057C1A7 /* Page.swift */,
+				6C312C52235A23A70037A187 /* NetworkFailure.swift */,
+				6C312C54235A23C20037A187 /* APIConstants.swift */,
 			);
 			path = " network service";
 			sourceTree = "<group>";
@@ -462,8 +471,10 @@
 				6C5411D12357A564000B75C0 /* ModelViewController.swift in Sources */,
 				6C5411BC235763EC000B75C0 /* ImageLoader.swift in Sources */,
 				6C5411BE235763EC000B75C0 /* UIView+layer.swift in Sources */,
+				6C312C53235A23A70037A187 /* NetworkFailure.swift in Sources */,
 				6CFD31DC2359C0280057C1A7 /* Page.swift in Sources */,
 				6C5F7F73235762E700BAF401 /* ManufacturerApi.swift in Sources */,
+				6C312C57235A23EC0037A187 /* DataExtension.swift in Sources */,
 				6C5F7F352357622C00BAF401 /* AppDelegate.swift in Sources */,
 				6C5411D32357A564000B75C0 /* ModelApi.swift in Sources */,
 				6C5F7F5E235762BF00BAF401 /* RequestBuilder.swift in Sources */,
@@ -475,6 +486,7 @@
 				6C5411C2235765D1000B75C0 /* AppCoordinator.swift in Sources */,
 				6C5411D7235879BA000B75C0 /* Logger.swift in Sources */,
 				6C5411CF2357A564000B75C0 /* ModelViewModel.swift in Sources */,
+				6C312C55235A23C20037A187 /* APIConstants.swift in Sources */,
 				6C5411BD235763EC000B75C0 /* ActivityIndicator.swift in Sources */,
 				6C5411CE2357A564000B75C0 /* ModelTableCell.swift in Sources */,
 				6C5F7F5D235762BF00BAF401 /* APIClient.swift in Sources */,
