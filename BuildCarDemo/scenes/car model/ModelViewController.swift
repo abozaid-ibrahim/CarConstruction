@@ -41,19 +41,20 @@ final class ModelViewController: UIViewController, Loadable {
     }
     
     /// set tableview data source, prefetch data source, and delegate
-    private func bindTablViewData(){
+    private func bindTablViewData() {
         let id = String(describing: ModelTableCell.self)
         viewModel.carType
             .filterNil()
             .observeOn(MainScheduler.instance)
             .bind(to: tableView.rx.items(cellIdentifier: id, cellType: ModelTableCell.self)) { index, model, cell in
                 cell.setData(with: model, index: index)
-        }.disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
         
         tableView.rx.modelSelected(CarType.self).bind(onNext: viewModel!.combineSelection(with:)).disposed(by: disposeBag)
         
         tableView.rx.prefetchRows.bind(onNext: viewModel.loadCells(for:)).disposed(by: disposeBag)
     }
+    
     /// show combined user selections model and cartype in alert view
     /// - Parameter choices: formatted string for use selections of the car and model
     private func showChoices(choices: String) {

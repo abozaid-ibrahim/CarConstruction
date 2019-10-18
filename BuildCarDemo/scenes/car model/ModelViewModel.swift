@@ -9,14 +9,14 @@
 import Foundation
 import RxSwift
 
-protocol CarModelViewModel:Pageable {
+protocol CarModelViewModel: Pageable {
     func loadData(showLoader: Bool)
     func combineSelection(with type: CarType)
-    var carType: BehaviorSubject<CarObject?>{get}
-    var showProgress : PublishSubject<Bool>{get}
-    var error : PublishSubject<String?>{get}
-    var title : BehaviorSubject<String?>{get}
-    var chooses : PublishSubject<String>{get}
+    var carType: BehaviorSubject<CarObject?> { get }
+    var showProgress: PublishSubject<Bool> { get }
+    var error: PublishSubject<String?> { get }
+    var title: BehaviorSubject<String?> { get }
+    var chooses: PublishSubject<String> { get }
 }
 
 /// viewModel of cartypes list,
@@ -50,20 +50,21 @@ final class CarTypeViewModel: CarModelViewModel {
             return
         }
         self.page.isFetchingData = true
-        showLoader ?  self.showProgress.onNext(true) : ()
+        showLoader ? self.showProgress.onNext(true) : ()
         let api = CarApi.mainTypes(key: APIConstants.authKey, manufacturer: self.manufacturer.key, page: self.page.currentPage, pageSize: self.page.countPerPage)
         self.apiClient.getData(of: api, model: CarTypeJsonResponse.self)
             .subscribe(onNext: { [unowned self] response in
-                guard let response = response else{
+                guard let response = response else {
                     self.error.onNext(NetworkFailure.failedToParseData.localizedDescription)
                     return
                 }
                 self.setUIWithData(showLoader, response: response)
-                self.updatePageValues( response)
-                }, onError: { err in
-                    self.error.onNext(err.localizedDescription)
+                self.updatePageValues(response)
+            }, onError: { err in
+                self.error.onNext(err.localizedDescription)
             }).disposed(by: self.disposeBag)
     }
+    
     /// emit values to ui to fill the table view if the data is a littlet reload untill fill the table
     private func updatePageValues(_ response: CarTypeJsonResponse) {
         self.page.maxPages = response.totalPageCount ?? 0
@@ -89,12 +90,13 @@ final class CarTypeViewModel: CarModelViewModel {
     }
 }
 
-//MARK: Pagination logic
-extension CarTypeViewModel{
+// MARK: Pagination logic
+
+extension CarTypeViewModel {
     /// load nearest cells in table view
     /// - Parameter indexPaths: the indexes that will appear to the user soon.
     func loadCells(for indexPaths: [IndexPath]) {
-        if indexPaths.contains(where: self.shouldLoadMoreData)  {
+        if indexPaths.contains(where: self.shouldLoadMoreData) {
             self.loadData(showLoader: false)
         }
     }
@@ -102,6 +104,6 @@ extension CarTypeViewModel{
     /// should load more items
     /// - Parameter indexPath: nearest unvisible indexpath
     private func shouldLoadMoreData(for indexPath: IndexPath) -> Bool {
-        return  (indexPath.row + 10) >= self.page.fetchedItemsCount
+        return (indexPath.row + 10) >= self.page.fetchedItemsCount
     }
 }

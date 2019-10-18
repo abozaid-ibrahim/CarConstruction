@@ -9,7 +9,7 @@
 import Foundation
 
 enum CarApi {
-    case mainTypes(key: String, manufacturer:String,page: Int, pageSize: Int)
+    case mainTypes(key: String, manufacturer: String, page: Int, pageSize: Int)
 }
 
 extension CarApi: RequestBuilder {
@@ -35,7 +35,7 @@ extension CarApi: RequestBuilder {
             let prmDic = [
                 "pageSize": prm.pageSize,
                 "page": prm.page,
-                "manufacturer":prm.manufacturer,
+                "manufacturer": prm.manufacturer,
                 "wa_key": prm.key
             ] as [String: Any]
             var items = [URLQueryItem]()

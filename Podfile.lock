@@ -2,12 +2,24 @@ PODS:
   - Kingfisher (5.8.3):
     - Kingfisher/Core (= 5.8.3)
   - Kingfisher/Core (5.8.3)
+  - Nimble (7.3.4)
+  - Quick (2.2.0)
+  - RxBlocking (5.0.0):
+    - RxSwift (~> 5)
   - RxCocoa (5.0.0):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
   - RxGesture (3.0.1):
     - RxCocoa (~> 5.0)
     - RxSwift (~> 5.0)
+  - RxNimble (4.5.0):
+    - RxNimble/RxBlocking (= 4.5.0)
+  - RxNimble/Core (4.5.0):
+    - Nimble (~> 7.0)
+    - RxSwift (~> 5.0)
+  - RxNimble/RxBlocking (4.5.0):
+    - RxBlocking
+    - RxNimble/Core
   - RxOptional (4.0.0):
     - RxCocoa (~> 5)
     - RxSwift (~> 5)
@@ -27,8 +39,12 @@ PODS:
 
 DEPENDENCIES:
   - Kingfisher
+  - Nimble
+  - Quick
+  - RxBlocking
   - RxCocoa
   - RxGesture
+  - RxNimble
   - RxOptional
   - RxSwift
   - RxSwiftExt (~> 5)
@@ -37,8 +53,12 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Kingfisher
+    - Nimble
+    - Quick
+    - RxBlocking
     - RxCocoa
     - RxGesture
+    - RxNimble
     - RxOptional
     - RxRelay
     - RxSwift
@@ -47,14 +67,18 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Kingfisher: b7e4cb65ff24c264bd2a1284b75b974d907afd94
+  Nimble: 051e3d8912d40138fa5591c78594f95fb172af37
+  Quick: 7fb19e13be07b5dfb3b90d4f9824c855a11af40e
+  RxBlocking: c67185d26498ea3cbe3e121917c3c16739e43123
   RxCocoa: fcf32050ac00d801f34a7f71d5e8e7f23026dcd8
   RxGesture: a3f8dd6adf078110ed5e1c9c30d09d705a09852e
+  RxNimble: 7de04a30b74ac4c9298ae819edbfbddc34abe7fc
   RxOptional: 9904e2219d59260c3c171273d475b2126de187e8
   RxRelay: 4f7409406a51a55cd88483f21ed898c234d60f18
   RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
   RxSwiftExt: 0d2fd77523a169d1459be34961b996a194bdef0e
   RxTest: 4349afe98f564e0a9bc19063368904622d17d49a
 
-PODFILE CHECKSUM: e530a58ff84e9f78a188fba41ef369c1cb7d5030
+PODFILE CHECKSUM: 03a02d60d5be7adf3bb10ead8cf423577eae0283
 
 COCOAPODS: 1.8.3

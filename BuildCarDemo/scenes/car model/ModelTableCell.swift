@@ -14,7 +14,6 @@ final class ModelTableCell: UITableViewCell {
     @IBOutlet private var keyLbl: UILabel!
     @IBOutlet private var valueLbl: UILabel!
 
-    
     /// Description
     /// - Parameter type: type description
     /// - Parameter index: index description
