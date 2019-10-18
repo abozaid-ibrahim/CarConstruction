@@ -15,12 +15,10 @@ protocol ApiClient {
 
 /// api handler, wrapper for the Url session
 final class HTTPClient: ApiClient {
-    
-    
     private let disposeBag = DisposeBag()
-    func getData<T: Codable>(of request: RequestBuilder, model: T.Type) -> Observable<T?>{        return excute(request).map{$0?.toModel()}
+    func getData<T: Codable>(of request: RequestBuilder, model _: T.Type) -> Observable<T?> { return excute(request).map { $0?.toModel() }
     }
-    
+
     /// fire the http request and return observable of the data or emit an error
     /// - Parameter request: the request that have all the details that need to call the remote api
     private func excute(_ request: RequestBuilder) -> Observable<Data?> {
@@ -32,9 +30,9 @@ final class HTTPClient: ApiClient {
                     return
                 }
                 guard let httpResponse = response as? HTTPURLResponse,
-                    (200...299).contains(httpResponse.statusCode) else {
-                        observer.onError(NetworkFailure.generalFailure)
-                        return
+                    (200 ... 299).contains(httpResponse.statusCode) else {
+                    observer.onError(NetworkFailure.generalFailure)
+                    return
                 }
                 print(String(data: data!, encoding: .utf8) ?? "")
                 observer.onNext(data)
@@ -54,7 +52,7 @@ extension Data {
             return nil
         }
     }
-    
+
     var toString: String {
         return String(data: self, encoding: .utf8) ?? ""
     }

@@ -8,12 +8,12 @@
 
 @testable import BuildCarDemo
 
+import Nimble
+import Quick
 import RxOptional
 import RxSwift
 import RxSwiftExt
 import RxTest
-import Nimble
-import Quick
 
 class CarTypeTests: QuickSpec {
     override func spec() {

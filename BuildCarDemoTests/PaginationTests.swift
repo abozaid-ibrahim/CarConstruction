@@ -25,12 +25,12 @@ class PaginationTests: XCTestCase {
         schedular = TestScheduler(initialClock: 0)
         manufacturersObserver = schedular.createObserver(Manufacturers.self)
     }
-    
+
     override func tearDown() {
         viewModel = .none
         apiClient = .none
     }
-    
+
     func testGettinDataOfTwoPages() {
         viewModel.manufacturersList.asObservable().unwrap().subscribe(manufacturersObserver).disposed(by: disposeBag)
 
@@ -40,11 +40,9 @@ class PaginationTests: XCTestCase {
             eve.value.element!.count == 6
         })
         viewModel.loadCells(for: [IndexPath(item: 20, section: 0)])
-       XCTAssertTrue(self.manufacturersObserver.events.contains { eve in
-        eve.value.element!.count == 12
-                  })
-        
-        
+        XCTAssertTrue(manufacturersObserver.events.contains { eve in
+            eve.value.element!.count == 12
+        })
     }
 }
 
@@ -79,7 +77,7 @@ private class MockedAPi: ApiClient {
     }
     }
     """
-    func getData<T>(of request: RequestBuilder, model: T.Type) -> Observable<T?> where T: Decodable, T: Encodable {
+    func getData<T>(of request: RequestBuilder, model _: T.Type) -> Observable<T?> where T: Decodable, T: Encodable {
         return Observable<T?>.create { observer in
             var response = ""
             if case let ManufacturerApi.manufacturers(value) = request {

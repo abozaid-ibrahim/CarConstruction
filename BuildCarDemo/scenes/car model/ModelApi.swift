@@ -31,12 +31,12 @@ extension CarApi: RequestBuilder {
 
     public var task: URLRequest {
         switch self {
-        case .mainTypes(let prm):
+        case let .mainTypes(prm):
             let prmDic = [
                 "pageSize": prm.pageSize,
                 "page": prm.page,
                 "manufacturer": prm.manufacturer,
-                "wa_key": prm.key
+                "wa_key": prm.key,
             ] as [String: Any]
             var items = [URLQueryItem]()
             var myURL = URLComponents(string: endpoint)
