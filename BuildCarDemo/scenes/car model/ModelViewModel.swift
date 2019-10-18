@@ -52,9 +52,12 @@ final class CarTypeViewModel: CarModelViewModel {
         self.page.isFetchingData = true
         showLoader ?  self.showProgress.onNext(true) : ()
         let api = CarApi.mainTypes(key: APIConstants.authKey, manufacturer: self.manufacturer.key, page: self.page.currentPage, pageSize: self.page.countPerPage)
-        self.apiClient.getCarTypeData(of: api)
-            .filterNil()
+        self.apiClient.getData(of: api, model: CarTypeJsonResponse.self)
             .subscribe(onNext: { [unowned self] response in
+                guard let response = response else{
+                    self.error.onNext(NetworkFailure.failedToParseData.localizedDescription)
+                    return
+                }
                 self.setUIWithData(showLoader, response: response)
                 self.updatePageValues( response)
                 }, onError: { err in

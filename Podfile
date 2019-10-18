@@ -12,16 +12,11 @@ target 'BuildCarDemo' do
   pod 'RxCocoa'
   pod 'Kingfisher'
   pod "RxGesture"
-
-
+  pod 'RxSwiftExt', '~> 5'
   target 'BuildCarDemoTests' do
     inherit! :search_paths
-
-    pod 'RxBlocking'
     pod 'RxTest'
-    pod 'Quick'
-    pod 'Nimble'
-    pod 'RxNimble'
+
   end
 
 end

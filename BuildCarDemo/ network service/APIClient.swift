@@ -10,23 +10,17 @@ import Foundation
 import RxOptional
 import RxSwift
 protocol ApiClient {
-    func getData(of request: RequestBuilder) -> Observable<ManufacturersJsonResponse?>
-    func getCarTypeData(of request: RequestBuilder) -> Observable<CarTypeJsonResponse?>
+    func getData<T: Codable>(of request: RequestBuilder, model: T.Type) -> Observable<T?>
 }
 
 /// api handler, wrapper for the Url session
 final class HTTPClient: ApiClient {
-    func getCarTypeData(of request: RequestBuilder) -> Observable<CarTypeJsonResponse?> {
-        print("REQ>>\(request)")
-        return excute(request).map { $0?.toModel() }.filterNil()
-    }
-
+    
+    
     private let disposeBag = DisposeBag()
-    func getData(of request: RequestBuilder) -> Observable<ManufacturersJsonResponse?> {
-        print("REQ>>\(request)")
-        return excute(request).map { $0?.toModel() }.filterNil()
+    func getData<T: Codable>(of request: RequestBuilder, model: T.Type) -> Observable<T?>{        return excute(request).map{$0?.toModel()}
     }
-
+    
     /// fire the http request and return observable of the data or emit an error
     /// - Parameter request: the request that have all the details that need to call the remote api
     private func excute(_ request: RequestBuilder) -> Observable<Data?> {
@@ -39,8 +33,8 @@ final class HTTPClient: ApiClient {
                 }
                 guard let httpResponse = response as? HTTPURLResponse,
                     (200...299).contains(httpResponse.statusCode) else {
-                    observer.onError(NetworkFailure.generalFailure)
-                    return
+                        observer.onError(NetworkFailure.generalFailure)
+                        return
                 }
                 print(String(data: data!, encoding: .utf8) ?? "")
                 observer.onNext(data)
@@ -54,14 +48,13 @@ final class HTTPClient: ApiClient {
 extension Data {
     func toModel<T: Decodable>() -> T? {
         do {
-            let object = try JSONDecoder().decode(T.self, from: self)
-            return object
+            return try JSONDecoder().decode(T.self, from: self)
         } catch {
             print(">>> parsing error \(error)")
             return nil
         }
     }
-
+    
     var toString: String {
         return String(data: self, encoding: .utf8) ?? ""
     }

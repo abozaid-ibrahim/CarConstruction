@@ -45,9 +45,12 @@ final class ManufacturersListViewModel: ManufacturerViewModel {
         showLoader ? self.showProgress.onNext(true) : ()
         self.page.isFetchingData = true
         let api = ManufacturerApi.manufacturers(key: APIConstants.authKey, page: self.page.currentPage, pageSize: self.page.countPerPage)
-        self.apiClient.getData(of: api)
-            .filterNil()
+        self.apiClient.getData(of: api, model: ManufacturersJsonResponse.self)
             .subscribe(onNext: { [unowned self] response in
+                guard let response = response else{
+                    self.error.onNext(NetworkFailure.failedToParseData.localizedDescription)
+                    return
+                }
                 self.updateUIWithData(showLoader, response: response)
                 self.updatePageValues(response)
                 }, onError: { err in
