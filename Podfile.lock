@@ -41,7 +41,6 @@ DEPENDENCIES:
   - Kingfisher
   - Nimble
   - Quick
-  - RxBlocking
   - RxCocoa
   - RxGesture
   - RxNimble
@@ -79,6 +78,6 @@ SPEC CHECKSUMS:
   RxSwiftExt: 0d2fd77523a169d1459be34961b996a194bdef0e
   RxTest: 4349afe98f564e0a9bc19063368904622d17d49a
 
-PODFILE CHECKSUM: 54a21c48aa43c94e494bcc04f6d8a63c470312a0
+PODFILE CHECKSUM: 37bdc5753cdde06393e388b90927e9e6678a7647
 
 COCOAPODS: 1.8.3
